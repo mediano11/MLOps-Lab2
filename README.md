@@ -1,6 +1,6 @@
 # Iris ML API — Лабораторна робота 2 & 3 (MLOps)
 
-[![CI](https://github.com/mediano11/MLOps-Lab2/actions/workflows/ci.yml/badge.svg)](https://github.com/mediano11/MLOps-Lab2/actions/workflows/ci.yml)
+[![CI Lab3](https://github.com/mediano11/MLOps-Lab2/actions/workflows/ci-lab3.yml/badge.svg)](https://github.com/mediano11/MLOps-Lab2/actions/workflows/ci-lab3.yml)
 
 **Автор:** Пестенков Дмітрій
 **Дата:** 2026-05-15
@@ -56,8 +56,8 @@ ml-api-lab/
 │   ├── test_metrics.py      # Тести Prometheus-метрик (ЛР3)
 │   └── test_drift.py        # Тести детектора drift (ЛР3)
 ├── assets/
-│   ├── health.png
-│   └── predict.png
+│   ├── Screenshot_1.png     # скріншот перевірки GET /health на Render
+│   └── Screenshot_2.png     # скріншот перевірки POST /check-drift
 ├── model.joblib             # Артефакт моделі
 ├── reference_stats.joblib   # Reference-вибірка для drift detection
 ├── requirements.txt
@@ -261,13 +261,19 @@ python scripts/evidently_report.py
 
 ## Демонстрація роботи
 
+Роботу розгорнутого сервісу на **Render** (`https://mlops-lab2-2ozc.onrender.com`) перевірено вручну; нижче — скріншоти з каталогу `assets/`.
+
 ### GET `/health` — перевірка стану сервісу
 
-![health endpoint](assets/health.png)
+У браузері відкрито `…/health`: відповідь JSON підтверджує `status: healthy`, модель завантажена (`model_loaded: true`) і drift-детектор готовий (`drift_detector_ready: true`).
 
-### POST `/predict` — класифікація квітки Iris
+![Перевірка GET /health на Render](assets/Screenshot_1.png)
 
-![predict endpoint](assets/predict.png)
+### POST `/check-drift` — перевірка детекції drift
+
+Запит до `/check-drift` (наприклад, через Postman) з батчем аномальних зразків і `alpha: 0.05`: у відповіді `drift_detected: true`, усі чотири ознаки з дуже малим `p_value` — зсув даних виявлено коректно.
+
+![Перевірка POST /check-drift на Render](assets/Screenshot_2.png)
 
 ## Посилання на деплой
 
